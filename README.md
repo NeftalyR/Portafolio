@@ -68,11 +68,7 @@ Technologies: Airflow, PostgreSQL, Python.
 
 📚 Certifications & Education
 
-Master's in Educational Technology and Digital Competencies.
 
-Certifications in Power BI, SQL, and Cloud Computing (AWS, Azure).
-
-Courses in Machine Learning and Big Data.
 
 📞 Contact: 1-829-399-4808
 

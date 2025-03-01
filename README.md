@@ -26,11 +26,11 @@ SQL (SQL Server, PostgreSQL, MySQL, Oracle)
 
 ETL (Airflow, Pentaho, SSIS)
 
-⭐⭐⭐⭐
+⭐⭐⭐
 
 Power BI / Tableau
 
-⭐⭐⭐⭐
+⭐⭐⭐⭐⭐
 
 Big Data (PySpark, Hadoop, Kafka)
 

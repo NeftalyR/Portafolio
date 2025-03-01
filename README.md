@@ -76,4 +76,4 @@ Email: neftalyrosario@gmail.com
 
 LinkedIn: linkedin.com/in/neftaly-rosario-avelino-9bb10a75
 
-GitHub: https://github.com/NeftalyR
+GitHub: https://github.com/NeftalyR/Portafolio

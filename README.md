@@ -1,6 +1,6 @@
 🔍 About Me
 
-Hello, I am [Neftaly Rosario], a Data Engineer and Data Analyst with experience in data manipulation, transformation, and visualization. I specialize in:
+Hello, I am Neftaly Rosari], a Data Engineer and Data Analyst with experience in data manipulation, transformation, and visualization. I specialize in:
 
 📊 Data Analysis with Python (pandas, NumPy, SQLAlchemy) and SQL.
 

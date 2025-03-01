@@ -36,7 +36,7 @@ Big Data (PySpark, Hadoop, Kafka)
 
 ⭐⭐⭐
 
-Cloud (AWS S3, Redshift, Glue, Athena, Azure Synapse)
+Cloud (Azure Synapse,,AWS,Google Cloud Platform (GCP))
 
 ⭐⭐⭐
 

@@ -1,0 +1,49 @@
+table DIM_CLIENTES
+	lineageTag: 1ff50d28-da19-4452-b819-06265815639a
+
+	column ACCOUNT_NUMBER
+		dataType: string
+		lineageTag: ead76996-ac43-4add-a745-9734ba831310
+		summarizeBy: none
+		sourceColumn: ACCOUNT_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACCOUNT_NAME
+		dataType: string
+		lineageTag: a7e432ba-8d76-4ddf-9e7e-ef84e94a2631
+		summarizeBy: none
+		sourceColumn: ACCOUNT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column CUST_ACCOUNT_ID
+		dataType: string
+		lineageTag: 5095bcc1-d836-40be-9181-36c3572eb802
+		summarizeBy: none
+		sourceColumn: CUST_ACCOUNT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FULL_ACCOUNT_NAME
+		dataType: string
+		lineageTag: c130c8b2-9ab0-4627-a01e-42a199d73cf3
+		summarizeBy: none
+		sourceColumn: FULL_ACCOUNT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_CLIENTES = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("stidemodata.database.windows.net", "data-bi"),
+				    bancof_hz_cust_accounts = Source{[Schema="bancof",Item="hz_cust_accounts"]}[Data],
+				    #"Trimmed Text" = Table.TransformColumns(bancof_hz_cust_accounts,{{"ACCOUNT_NAME", Text.Trim, type text}, {"ACCOUNT_NUMBER", Text.Trim, type text}}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Trimmed Text", "FULL_ACCOUNT_NAME", each Text.Combine({[ACCOUNT_NUMBER], [ACCOUNT_NAME]}, " - "), type text),
+				    #"Replaced Value" = Table.ReplaceValue(#"Inserted Merged Column",null,"PENDIENTE",Replacer.ReplaceValue,{"ACCOUNT_NAME"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+

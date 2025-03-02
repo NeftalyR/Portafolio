@@ -1,0 +1,29 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DIM_CLIENTES","DIM_PUNTOS DE DISTRIBUCION","H_VENTAS","H_VENTAS DETALLE","RA_CUSTOMER_TRX_LINES_ALL11al18","RA_CUSTOMER_TRX_LINES_ALL19al25","RA_CUSTOMER_TRX_LINES_ALL26al30","RA_CUSTOMER_TRX_LINES_ALL01al10","MEDIDAS"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.140.1078.0 (25.02)+2cce24fb16e8b71ba835921d23e7ffc1fab909df
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_379dfc9d-816c-4dd5-9df3-adef682a948b
+ref table Date
+ref table MEDIDAS
+ref table DIM_CLIENTES
+ref table 'DIM_PUNTOS DE DISTRIBUCION'
+ref table H_VENTAS
+ref table 'H_VENTAS DETALLE'
+ref table LocalDateTable_1f20ff19-4154-4700-8357-2a1a6d5287ee
+ref table LocalDateTable_1c3e78bc-4248-4e01-a464-54557c11cc86
+ref table OthercostumerTable
+
+ref cultureInfo en-US
+

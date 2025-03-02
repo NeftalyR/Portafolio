@@ -1,0 +1,93 @@
+table Date
+	lineageTag: 953144df-c2b3-4e17-a098-0dd9eac95fff
+
+	column Date
+		formatString: Short Date
+		lineageTag: 3882e6aa-33cf-4898-bc6a-8446f0d1b198
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 6cd7c8eb-8c60-4804-84f1-111367c418ad
+			defaultHierarchy: LocalDateTable_1c3e78bc-4248-4e01-a464-54557c11cc86.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Calendar Year'
+		lineageTag: 775b1920-5d93-4b7d-ac2e-99772f5213a3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Calendar Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		lineageTag: d9d906d6-f1bb-475d-9b7b-e21fca321437
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: f418b939-9974-40ef-a940-70e83813374a
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weekday
+		lineageTag: 012b4a22-fc6c-4697-bd6d-3b782d020386
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Weekday]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Weekday number'
+		formatString: 0
+		lineageTag: 2dbd04b7-73d4-4155-8661-2f390f0c1564
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Weekday number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		lineageTag: 261ad897-9658-4f3a-8170-0227663768e4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = calculated
+		mode: import
+		source = ```
+				
+				VAR MinYear = MIN('H_VENTAS DETALLE'[T_Date]) 
+				VAR MaxYear = MAX('H_VENTAS DETALLE'[T_Date]) 
+				RETURN
+				ADDCOLUMNS(
+				    FILTER(
+				        CALENDARAUTO(),
+				        [Date] >= MinYear &&  
+				        [Date] <= MaxYear
+				    ),
+				    "Calendar Year", "CY " & YEAR([Date]),
+				    "Month Name", FORMAT([Date], "mmmm"),
+				    "Month Number", MONTH([Date]),
+				    "Weekday", FORMAT([Date], "dddd"),
+				    "Weekday number", WEEKDAY([Date]),
+				    "Quarter", "Q" & TRUNC((MONTH([Date]) - 1) / 3) + 1
+				)
+				
+				
+				```
+
+	annotation PBI_Id = 02cacf8c1e374ebb94201ab08a95ccae
+

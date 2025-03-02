@@ -1,0 +1,77 @@
+table 'DIM_PUNTOS DE DISTRIBUCION'
+	lineageTag: 17130cf5-72d2-446e-b85d-3457f45441f7
+
+	column PARTY_SITE_NUMBER
+		dataType: string
+		lineageTag: 1172450e-2942-4e34-ae8c-eb2123499c93
+		summarizeBy: none
+		sourceColumn: PARTY_SITE_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column PARTY_SITE_NAME
+		dataType: string
+		lineageTag: 7afe9a88-fa41-4ab8-8b84-0a4a354a6287
+		summarizeBy: none
+		sourceColumn: PARTY_SITE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column PARTY_ID
+		dataType: string
+		lineageTag: 5ff43406-b8ca-4290-a546-4ca49f72d38b
+		summarizeBy: none
+		sourceColumn: PARTY_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PARTY_SITE_ID
+		dataType: string
+		lineageTag: 0725d763-ddba-48eb-8f92-0ebb64426cc8
+		summarizeBy: none
+		sourceColumn: PARTY_SITE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FULL_PARTY_SITE
+		dataType: string
+		lineageTag: db2f5e42-70c8-4047-9674-ba6a03b11627
+		summarizeBy: none
+		sourceColumn: FULL_PARTY_SITE
+
+		annotation SummarizationSetBy = Automatic
+
+	column FULL_SITE_NAME
+		dataType: string
+		lineageTag: 609e3093-65c7-449c-9fd7-3ed1501afb71
+		summarizeBy: none
+		sourceColumn: FULL_SITE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column
+		type: calculated
+		lineageTag: 6970a497-344c-4e20-8a43-1902927a10c7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	partition 'DIM_PUNTOS DE DISTRIBUCION' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("stidemodata.database.windows.net", "data-bi"),
+				    bancof_hz_party_sites = Source{[Schema="bancof",Item="hz_party_sites"]}[Data],
+				    #"Trimmed Text" = Table.TransformColumns(bancof_hz_party_sites,{{"PARTY_SITE_NUMBER", Text.Trim, type text}, {"PARTY_SITE_NAME", Text.Trim, type text}, {"PARTY_ID", Text.Trim, type text}, {"PARTY_SITE_ID", Text.Trim, type text}}),
+				    #"Inserted Merged Column1" = Table.AddColumn(#"Trimmed Text", "FULL_PARTY_SITE", each Text.Combine({[PARTY_SITE_ID], [PARTY_SITE_NAME]}, " - "), type text),
+				    #"Replaced Value" = Table.ReplaceValue(#"Inserted Merged Column1",null,"MAIN",Replacer.ReplaceValue,{"PARTY_SITE_NAME"}),
+				    #"Inserted Merged Column2" = Table.AddColumn(#"Replaced Value", "FULL_SITE_NAME", each Text.Combine({[PARTY_SITE_NUMBER], [PARTY_SITE_NAME]}, "-"), type text)
+				in
+				    #"Inserted Merged Column2"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

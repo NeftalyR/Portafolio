@@ -1,0 +1,25 @@
+table OthercostumerTable
+	lineageTag: d083f67d-8919-4a71-a742-ff86611dec55
+
+	column ACCOUNT_NAME
+		lineageTag: 1dd5b246-74fe-4502-86d9-da0fde5f9098
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_CLIENTES[ACCOUNT_NAME]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition OthercostumerTable = calculated
+		mode: import
+		source = ```
+				
+				    UNION(
+				     DISTINCT(DIM_CLIENTES[ACCOUNT_NAME]),
+				        {"OTROS"}
+				        )
+				
+				   
+				```
+
+	annotation PBI_Id = db3f9a02672a43c08e29d7a2a7b26be1
+

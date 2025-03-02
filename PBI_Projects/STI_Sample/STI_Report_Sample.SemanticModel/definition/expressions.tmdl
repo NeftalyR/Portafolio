@@ -1,0 +1,44 @@
+expression RA_CUSTOMER_TRX_LINES_ALL11al18 =
+		let
+		    Source = Sql.Database("stidemodata.database.windows.net", "data-bi", [Query="SELECT#(lf)    CUSTOMER_TRX_ID AS cust_trxID,#(lf)    inventory_item_id,#(lf)#(tab) MAX(CASE#(lf)        WHEN CAST(unit_selling_price AS DECIMAL(10, 2)) > 0 THEN description#(lf)        ELSE NULL#(lf)      END#(lf)    ) AS Description,  -- Obtener la descripción para los elementos que no comienzan con 'OI0'#(lf)    MAX(CAST(quantity_invoiced AS DECIMAL(10, 2))) AS Quantity_invoiced,  -- Obtener la cantidad máxima facturada#(tab)#(lf)#(tab)#(tab)#(lf)#(tab)MAX(#(lf)        CASE#(lf)         WHEN (CAST(unit_selling_price AS DECIMAL(10, 2)) > 0  AND description NOT LIKE 'OI0%')#(lf)         THEN (CAST(unit_selling_price AS DECIMAL(10, 2)))#(lf)         ELSE CAST(0 AS DECIMAL(10, 2))#(lf)         END) AS Unit_selling_price,  -- Precio de venta unitario máximo#(lf)#(tab)#(lf)    (COALESCE(#(lf)       SUM(#(lf)        CASE#(lf)          WHEN CAST(unit_selling_price AS DECIMAL(10, 2)) < 0 THEN CAST(unit_selling_price AS DECIMAL(10, 2))#(lf)          ELSE NULL#(lf)        END#(lf)      ), 0#(lf)         )*MAX(CAST(quantity_invoiced AS DECIMAL(10, 2)))) AS Discount,  -- Obtener el descuento para los artículos que comienzan con 'OI0' (default a 0 si no hay)#(lf)   MAX(CAST(revenue_amount AS DECIMAL(10, 2))) AS Amount_Invoiced,  -- Monto de ingresos máximo#(lf)   MAX(CREATION_DATE) AS T_Date #(lf)   FROM#(lf)    bancof.RA_CUSTOMER_TRX_LINES_ALL11al18 #(lf)    WHERE#(lf)    description != 'BASE'  -- Excluir registros con la descripción 'BASE'#(lf)    GROUP BY#(lf)    CUSTOMER_TRX_ID,#(lf)#(tab)inventory_item_id"])
+		in
+		    Source
+	lineageTag: a0d208a0-162c-4fb4-8d15-62d5649dbe1b
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression RA_CUSTOMER_TRX_LINES_ALL19al25 =
+		let
+		    Source = Sql.Database("stidemodata.database.windows.net", "data-bi", [Query="SELECT#(lf)    CUSTOMER_TRX_ID AS cust_trxID,#(lf)    inventory_item_id,#(lf)#(tab) MAX(CASE#(lf)        WHEN CAST(unit_selling_price AS DECIMAL(10, 2)) > 0 THEN description#(lf)        ELSE NULL#(lf)      END#(lf)    ) AS Description,  -- Obtener la descripción para los elementos que no comienzan con 'OI0'#(lf)    MAX(CAST(quantity_invoiced AS DECIMAL(10, 2))) AS Quantity_invoiced,  -- Obtener la cantidad máxima facturada#(tab)#(lf)#(tab)#(tab)#(lf)#(tab)MAX(#(lf)        CASE#(lf)         WHEN (CAST(unit_selling_price AS DECIMAL(10, 2)) > 0  AND description NOT LIKE 'OI0%')#(lf)         THEN (CAST(unit_selling_price AS DECIMAL(10, 2)))#(lf)         ELSE CAST(0 AS DECIMAL(10, 2))#(lf)         END) AS Unit_selling_price,  -- Precio de venta unitario máximo#(lf)#(tab)#(lf)    (COALESCE(#(lf)       SUM(#(lf)        CASE#(lf)          WHEN CAST(unit_selling_price AS DECIMAL(10, 2)) < 0 THEN CAST(unit_selling_price AS DECIMAL(10, 2))#(lf)          ELSE NULL#(lf)        END#(lf)      ), 0#(lf)         )*MAX(CAST(quantity_invoiced AS DECIMAL(10, 2)))) AS Discount,  -- Obtener el descuento para los artículos que comienzan con 'OI0' (default a 0 si no hay)#(lf)   MAX(CAST(revenue_amount AS DECIMAL(10, 2))) AS Amount_Invoiced,  -- Monto de ingresos máximo#(lf)   MAX(CREATION_DATE) AS T_Date #(lf)FROM#(lf)    bancof.RA_CUSTOMER_TRX_LINES_ALL19al25#(lf)WHERE#(lf)    description != 'BASE'  -- Excluir registros con la descripción 'BASE'#(lf)GROUP BY#(lf)    CUSTOMER_TRX_ID,#(lf)#(tab)inventory_item_id"])
+		in
+		    Source
+	lineageTag: f358d10b-b476-4dde-bff7-ee4ba978dd19
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression RA_CUSTOMER_TRX_LINES_ALL26al30 =
+		let
+		    Source = Sql.Database("stidemodata.database.windows.net", "data-bi", [Query="SELECT#(lf)    CUSTOMER_TRX_ID AS cust_trxID,#(lf)    inventory_item_id,#(lf)#(tab) MAX(CASE#(lf)        WHEN CAST(unit_selling_price AS DECIMAL(10, 2)) > 0 THEN description#(lf)        ELSE NULL#(lf)      END#(lf)    ) AS Description,  -- Obtener la descripción para los elementos que no comienzan con 'OI0'#(lf)    MAX(CAST(quantity_invoiced AS DECIMAL(10, 2))) AS Quantity_invoiced,  -- Obtener la cantidad máxima facturada#(tab)#(lf)#(tab)#(tab)#(lf)#(tab)MAX(#(lf)        CASE#(lf)         WHEN (CAST(unit_selling_price AS DECIMAL(10, 2)) > 0  AND description NOT LIKE 'OI0%')#(lf)         THEN (CAST(unit_selling_price AS DECIMAL(10, 2)))#(lf)         ELSE CAST(0 AS DECIMAL(10, 2))#(lf)         END) AS Unit_selling_price,  -- Precio de venta unitario máximo#(lf)#(tab)#(lf)    (COALESCE(#(lf)       SUM(#(lf)        CASE#(lf)          WHEN CAST(unit_selling_price AS DECIMAL(10, 2)) < 0 THEN CAST(unit_selling_price AS DECIMAL(10, 2))#(lf)          ELSE NULL#(lf)        END#(lf)      ), 0#(lf)         )*MAX(CAST(quantity_invoiced AS DECIMAL(10, 2)))) AS Discount,  -- Obtener el descuento para los artículos que comienzan con 'OI0' (default a 0 si no hay)#(lf)  MAX(CAST(revenue_amount AS DECIMAL(10, 2))) AS Amount_Invoiced,  -- Monto de ingresos máximo#(lf)  MAX(CREATION_DATE) AS T_Date #(lf)#(lf)FROM#(lf)    bancof.RA_CUSTOMER_TRX_LINES_ALL26al30#(lf)WHERE#(lf)    description != 'BASE'  -- Excluir registros con la descripción 'BASE'#(lf)GROUP BY#(lf)    CUSTOMER_TRX_ID,#(lf)#(tab)inventory_item_id#(lf)"])
+		in
+		    Source
+	lineageTag: 2a182661-0672-4100-bb81-e5eb896aa53c
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression RA_CUSTOMER_TRX_LINES_ALL01al10 =
+		let
+		    Source = Sql.Database("stidemodata.database.windows.net", "data-bi", [Query="SELECT#(lf)    CUSTOMER_TRX_ID AS cust_trxID,#(lf)    inventory_item_id,#(lf)#(tab) MAX(CASE#(lf)        WHEN CAST(unit_selling_price AS DECIMAL(10, 2)) > 0 THEN description#(lf)        ELSE NULL#(lf)      END#(lf)    ) AS Description,  -- Obtener la descripción para los elementos que no comienzan con 'OI0'#(lf)    MAX(CAST(quantity_invoiced AS DECIMAL(10, 2))) AS Quantity_invoiced,  -- Obtener la cantidad máxima facturada#(tab)#(lf)#(tab)#(tab)#(lf)#(tab)MAX(#(lf)        CASE#(lf)         WHEN (CAST(unit_selling_price AS DECIMAL(10, 2)) > 0  AND description NOT LIKE 'OI0%')#(lf)         THEN (CAST(unit_selling_price AS DECIMAL(10, 2)))#(lf)         ELSE CAST(0 AS DECIMAL(10, 2))#(lf)         END) AS Unit_selling_price,  -- Precio de venta unitario máximo#(lf)#(tab)#(lf)    (COALESCE(#(lf)       SUM(#(lf)        CASE#(lf)          WHEN CAST(unit_selling_price AS DECIMAL(10, 2)) < 0 THEN CAST(unit_selling_price AS DECIMAL(10, 2))#(lf)          ELSE NULL#(lf)        END#(lf)      ), 0#(lf)         )*MAX(CAST(quantity_invoiced AS DECIMAL(10, 2)))) AS Discount,  -- Obtener el descuento para los artículos que comienzan con 'OI0' (default a 0 si no hay)#(lf)   MAX(CAST(revenue_amount AS DECIMAL(10, 2))) AS Amount_Invoiced,  -- Monto de ingresos máximo#(lf)  MAX(CREATION_DATE) AS T_Date #(lf)FROM#(lf)    bancof.RA_CUSTOMER_TRX_LINES_ALL01al10  #(lf)WHERE#(lf)    description != 'BASE'  -- Excluir registros con la descripción 'BASE'#(lf)GROUP BY#(lf)    CUSTOMER_TRX_ID,#(lf)#(tab)inventory_item_id#(lf)"])
+		in
+		    Source
+	lineageTag: 15fcec75-3be8-4385-a505-94467cd3fe9a
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

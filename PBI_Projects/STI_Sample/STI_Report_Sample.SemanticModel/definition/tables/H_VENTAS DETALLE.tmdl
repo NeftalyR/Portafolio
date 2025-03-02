@@ -1,0 +1,113 @@
+table 'H_VENTAS DETALLE'
+	lineageTag: 755cd2d6-1546-4b7b-8bbe-cabb49a85e1b
+
+	column cust_trxID
+		dataType: string
+		lineageTag: ce2b70d6-f138-4bc1-b258-ccec1989338c
+		summarizeBy: none
+		sourceColumn: cust_trxID
+
+		annotation SummarizationSetBy = Automatic
+
+	column inventory_item_id
+		dataType: string
+		lineageTag: 05c939ed-1459-4216-84c0-22ba731367de
+		summarizeBy: none
+		sourceColumn: inventory_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: d859b577-756c-4618-ad3e-82e953b9ca7a
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity_invoiced
+		dataType: double
+		formatString: 0
+		lineageTag: 8ba3b702-316e-4ed1-b685-a2a59a6cf39b
+		summarizeBy: sum
+		sourceColumn: Quantity_invoiced
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Unit_selling_price
+		dataType: double
+		formatString: "$#,##0.0;-$#,##0.0;-  "
+		lineageTag: 8dbc74a6-c5b1-4d5f-9b22-34506357ec9c
+		summarizeBy: sum
+		sourceColumn: Unit_selling_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column Discount
+		dataType: double
+		lineageTag: a8e56d92-7f01-490c-a9de-2031bc2861d2
+		summarizeBy: sum
+		sourceColumn: Discount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Amount_Invoiced
+		dataType: double
+		lineageTag: a8a528f7-8b4a-416b-8e74-3d3e38bc8954
+		summarizeBy: sum
+		sourceColumn: Amount_Invoiced
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column T_Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 7b50f996-9c71-4390-9d24-85c1e52614f6
+		summarizeBy: none
+		sourceColumn: T_Date
+
+		variation Variation
+			isDefault
+			relationship: 90bdca69-fdff-4239-9de3-2b8bf23d9379
+			defaultHierarchy: LocalDateTable_1f20ff19-4154-4700-8357-2a1a6d5287ee.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Text_Selling_Price
+		dataType: string
+		lineageTag: b0fb41a4-5b11-462e-8444-d4bd4894920c
+		summarizeBy: none
+		sourceColumn: Text_Selling_Price
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'H_VENTAS DETALLE' = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({RA_CUSTOMER_TRX_LINES_ALL01al10, RA_CUSTOMER_TRX_LINES_ALL11al18, RA_CUSTOMER_TRX_LINES_ALL19al25, RA_CUSTOMER_TRX_LINES_ALL26al30}),
+				   #"Added Custom" = Table.AddColumn(Source, "Custom", each if ([Discount]<=0 and [Unit_selling_price]<=0) or [Discount]=null then 0 else [Quantity_invoiced]),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Custom",{"Quantity_invoiced"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Custom", "Quantity_invoiced"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Quantity_invoiced", type number}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"cust_trxID", "inventory_item_id", "Description", "Quantity_invoiced", "Unit_selling_price", "Discount", "Amount_Invoiced", "T_Date"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Reordered Columns",{{"T_Date", type datetime}}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Changed Type1",{{"T_Date", type date}}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Changed Type2", "Text_Selling_Price", each  Number.ToText([Unit_selling_price], "C", "en-US"), type text)
+				in
+				    #"Inserted Merged Column"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,84 @@
+table H_VENTAS
+	lineageTag: f52d2fba-9cbb-41b4-9d40-199efd726f15
+
+	column TRX_NUMBER
+		dataType: string
+		lineageTag: e3085b78-0808-430f-92b7-f2ed85879ae5
+		summarizeBy: none
+		sourceColumn: TRX_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column TRX_DATE
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b260ada9-8aa8-48e0-81b0-0e37435e6551
+		summarizeBy: none
+		sourceColumn: TRX_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CT_REFERENCE
+		dataType: string
+		lineageTag: 7c2d5c4d-9c2a-4f03-80e4-1fa25cd17f40
+		summarizeBy: none
+		sourceColumn: CT_REFERENCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column BILL_TO_CUSTOMER_ID
+		dataType: string
+		lineageTag: 92fe8911-541f-46ee-95d4-12ac39b2050a
+		summarizeBy: none
+		sourceColumn: BILL_TO_CUSTOMER_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SOLD_TO_PARTY_ID
+		dataType: string
+		lineageTag: 56f85c59-6dde-4247-b92c-b7d6c1aeb04b
+		summarizeBy: none
+		sourceColumn: SOLD_TO_PARTY_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SHIP_TO_PARTY_ADDRESS_ID
+		dataType: string
+		lineageTag: 42d70ff9-081d-4059-b0d7-30cf73a11e92
+		summarizeBy: none
+		sourceColumn: SHIP_TO_PARTY_ADDRESS_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CUSTOMER_TRX_ID
+		dataType: string
+		lineageTag: 2eac2b7a-5a71-4642-8150-2c6636fbc81e
+		summarizeBy: none
+		sourceColumn: CUSTOMER_TRX_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PARTY_ID - PARTY_SITE_ID'
+		dataType: string
+		lineageTag: b7064188-29b6-450d-9c14-f685f78272bb
+		summarizeBy: none
+		sourceColumn: PARTY_ID - PARTY_SITE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition H_VENTAS = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("stidemodata.database.windows.net", "data-bi"),
+				    bancof_RA_CUSTOMER_TRX_ALL = Source{[Schema="bancof",Item="RA_CUSTOMER_TRX_ALL"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(bancof_RA_CUSTOMER_TRX_ALL,{{"TRX_DATE", type datetime}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type",{{"TRX_DATE", type date}}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Changed Type1", "PARTY_ID - PARTY_SITE_ID", each Text.Combine({[SHIP_TO_PARTY_ADDRESS_ID], [SOLD_TO_PARTY_ID]}, " - "), type text)
+				in
+				    #"Inserted Merged Column"
+
+	annotation PBI_ResultType = Table
+

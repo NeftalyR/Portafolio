@@ -1,0 +1,35 @@
+relationship 90bdca69-fdff-4239-9de3-2b8bf23d9379
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'H_VENTAS DETALLE'.T_Date
+	toColumn: LocalDateTable_1f20ff19-4154-4700-8357-2a1a6d5287ee.Date
+
+relationship 6cd7c8eb-8c60-4804-84f1-111367c418ad
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Date
+	toColumn: LocalDateTable_1c3e78bc-4248-4e01-a464-54557c11cc86.Date
+
+relationship e8168858-e421-f0cb-756d-d4a67dca6c0c
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'H_VENTAS DETALLE'.cust_trxID
+	toColumn: H_VENTAS.CUSTOMER_TRX_ID
+
+relationship 40c1aaca-5fc7-64d1-8be4-a95b8300c485
+	crossFilteringBehavior: bothDirections
+	fromColumn: H_VENTAS.BILL_TO_CUSTOMER_ID
+	toColumn: DIM_CLIENTES.CUST_ACCOUNT_ID
+
+relationship c8666546-95fc-eb51-c78d-0d4d405b0aa7
+	crossFilteringBehavior: bothDirections
+	fromColumn: H_VENTAS.TRX_DATE
+	toColumn: Date.Date
+
+relationship bfae53a9-cbe2-17b3-5f77-b4fa8744c644
+	crossFilteringBehavior: bothDirections
+	fromColumn: DIM_CLIENTES.ACCOUNT_NAME
+	toColumn: OthercostumerTable.ACCOUNT_NAME
+
+relationship cb175579-2683-e8a1-62cb-8a74ab32115d
+	crossFilteringBehavior: bothDirections
+	fromColumn: H_VENTAS.SHIP_TO_PARTY_ADDRESS_ID
+	toColumn: 'DIM_PUNTOS DE DISTRIBUCION'.PARTY_SITE_ID
+

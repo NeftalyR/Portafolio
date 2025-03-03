@@ -16,15 +16,15 @@ Technology
 
 Level
 
-Python (pandas, NumPy, SQLAlchemy)
+Python (pandas, NumPy,Matplotlib,seaborn, SQLAlchemy)
 
-⭐⭐⭐⭐
+⭐⭐⭐
 
 SQL (SQL Server, PostgreSQL, MySQL, Oracle)
 
 ⭐⭐⭐⭐⭐
 
-ETL (Airflow, Pentaho, SSIS)
+ETL (Azure Data Factury, SSIS,Databrics)
 
 ⭐⭐⭐
 
